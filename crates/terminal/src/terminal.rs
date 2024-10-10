@@ -2060,4 +2060,58 @@ mod tests {
             ..Default::default()
         }
     }
+
+    fn re_test(re: &str, hay: &str, expected: Vec<&str>) {
+        let results: Vec<_> = regex::Regex::new(re)
+            .unwrap()
+            .find_iter(hay)
+            .map(|m| m.as_str())
+            .collect();
+        assert_eq!(results, expected);
+    }
+    #[test]
+    fn test_url_regex() {
+        re_test(
+            crate::URL_REGEX,
+            "test http://example.com test mailto:bob@example.com train",
+            vec!["http://example.com", "mailto:bob@example.com"],
+        );
+    }
+    #[test]
+    fn test_word_regex() {
+        re_test(
+            crate::WORD_REGEX,
+            "hello, world! \"What\" is this?",
+            vec!["hello", "world", "What", "is", "this"],
+        );
+    }
+    #[test]
+    fn test_word_regex_with_linenum() {
+        // filename(line) and filename(line,col) as used in MSBuild output
+        // should be considered a single "word", even though comma is
+        // usually a word separator
+        re_test(
+            crate::WORD_REGEX,
+            "a Main.cs(20) b",
+            vec!["a", "Main.cs(20)", "b"],
+        );
+        re_test(
+            crate::WORD_REGEX,
+            "Main.cs(20,5) Error desc",
+            vec!["Main.cs(20,5)", "Error", "desc"],
+        );
+        // filename:line:col is a popular format for unix tools
+        re_test(
+            crate::WORD_REGEX,
+            "a Main.cs:20:5 b",
+            vec!["a", "Main.cs:20:5", "b"],
+        );
+        // Some tools output "filename:line:col:message", which currently isn't
+        // handled correctly, but might be in the future
+        re_test(
+            crate::WORD_REGEX,
+            "Main.cs:20:5:Error desc",
+            vec!["Main.cs:20:5:Error", "desc"],
+        );
+    }
 }
