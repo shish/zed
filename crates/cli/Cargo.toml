@@ -24,16 +24,16 @@ ipc-channel = "0.18"
 once_cell.workspace = true
 parking_lot.workspace = true
 paths.workspace = true
-release_channel.workspace = true
 serde.workspace = true
 util.workspace = true
 tempfile.workspace = true
 
 [target.'cfg(target_os = "linux")'.dependencies]
-exec.workspace =  true
+exec.workspace = true
 fork.workspace = true
 
 [target.'cfg(target_os = "macos")'.dependencies]
+release_channel.workspace = true
 core-foundation.workspace = true
 core-services = "0.2"
 plist = "1.3"
