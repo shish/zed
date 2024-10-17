@@ -24,7 +24,7 @@ pub struct WorkspaceSettings {
 #[derive(Copy, Clone, Default, Serialize, Deserialize, JsonSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum CloseWindowWhenNoItems {
-    /// Match platform conventions by default, so "on" on macOS and "off" everywhere else
+    /// Match platform conventions by default, so "CloseWindow" on macOS and "KeepWindowOpen" everywhere else
     #[default]
     PlatformDefault,
     /// Close the window when there are no tabs

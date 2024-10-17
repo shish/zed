@@ -11,7 +11,7 @@
     "dark": "One Dark"
   },
   // The name of a base set of key bindings to use.
-  // This setting can take four values, each named after another
+  // This setting can take a range of values, each named after another
   // text editor:
   //
   // 1. "VSCode"
@@ -96,8 +96,11 @@
   // Whether to confirm before quitting Zed.
   "confirm_quit": false,
   // Whether to restore last closed project when fresh Zed instance is opened.
+  // none - Always start with an empty editor
+  // last_workspace - Restore the workspace that was closed last.
+  // last_session - Restore all workspaces that were open when quitting Zed.
   "restore_on_startup": "last_session",
-  // Size of the drop target in the editor.
+  // Size of the drop target in the editor, as a fraction of (FIXME?).
   "drop_target_size": 0.2,
   // Whether the window should be closed when using 'close active item' on a window with no tabs.
   // May take 3 values:
