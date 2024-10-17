@@ -106,12 +106,13 @@ const ROW_COL_CAPTURE_REGEX: &str = r"(?x)
     )
     |
     (.+?)(?:
-        \:+(\d+)\:(\d+)\:*$  # filename:row:column
+        :(\d+):(\d+):?  # filename:row:column
         |
-        \:+(\d+)\:*()$       # filename:row
+        :(\d+):?()       # filename:row
         |
-        \:*()()$             # filename:
-    )";
+        :?()()             # filename:
+    )(?::.*)?$              # filename:row:column:diagnostic
+";
 
 /// A representation of a path-like string with optional row and column numbers.
 /// Matching values example: `te`, `test.rs:22`, `te:22:5`, `test.c(22)`, `test.c(22,5)`etc.
@@ -167,6 +168,11 @@ impl PathWithPosition {
     ///     column: None,
     /// });
     /// assert_eq!(PathWithPosition::parse_str("test_file.rs:1:2"), PathWithPosition {
+    ///     path: PathBuf::from("test_file.rs"),
+    ///     row: Some(1),
+    ///     column: Some(2),
+    /// });
+    /// assert_eq!(PathWithPosition::parse_str("test_file.rs:1:2:Message"), PathWithPosition {
     ///     path: PathBuf::from("test_file.rs"),
     ///     row: Some(1),
     ///     column: Some(2),
