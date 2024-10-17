@@ -281,7 +281,7 @@ impl X11Client {
             })
             .unwrap();
 
-        let (xcb_connection, x_root_index) = XCBConnection::connect(None).unwrap();
+        let (xcb_connection, x_root_index) = XCBConnection::connect(None).expect("Unable to connect to X Server");
         xcb_connection
             .prefetch_extension_information(xkb::X11_EXTENSION_NAME)
             .unwrap();
